@@ -2,11 +2,59 @@
 <html>
 <body>
 <h1>Hello World</h1>
+<div id="piechart"> </div>
 <p>I'm hosted with GitHub Pages.</p>
 <p>Thing I made</p>
-<input type = "text" id = "sWins"/>
-<script>
-    var SinglesWins = document.getElementById("sWins");
+Singles Wins <input type = "number" id = "sWins" value = "1"/>
+Doubles Wins <input type = "number" id = "dWins" value = "1"/>
+<br>
+2 v 1 Wins <input type = "number" id = "2v1Wins" value = "1"/>
+1 v 2 Wins <input type = "number" id = "1v2Wins" value = "1"/>
+<br>
+Singles Losses <input type = "number" id = "sLoss" value = "1"/>
+Doubles Losses <input type = "number" id = "dLoss" value = "1"/>
+<br>
+2 v 1 Losses <input type = "number" id = "2v1Loss" value = "1"/>
+1 v 2 Losses <input type = "number" id = "1v2Loss" value = "1"/>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+// Load google charts
+google.charts.load('current', {'packages':['corechart']});
+//google.charts.setOnLoadCallback(drawChart);
+
+// Draw the chart and set the chart values
+const v = (id) => {
+    const elem = document.getElementById(id);
+    const value = Number(elem.value);
+    if (value < 0) {
+        elem.value = "0";
+    }
+    return Math.round(Number(elem.value));
+};
+
+function drawChart() {
+  var data = google.visualization.arrayToDataTable([
+  ['Wins + Losses', 'Number Of Games'],
+  ['Singles Wins', v("sWins")],
+  ['Doubles Wins', v("dWins")],
+  ['2 v 1 Wins', v("2v1Wins")],
+  ['1 v 2 Wins', v("1v2Wins")],
+  ['Singles Losses', v("sLoss")],
+  ['Doubles Losses', v("dLoss")],
+  ['2 v 1 Losses', v("2v1Loss")],
+  ['1 v 2 Losses', v("1v2Loss")],
+]);
+
+  // Optional; add a title and set the width and height of the chart
+  var options = {'title':'Wins + Losses', 'width':550, 'height':400};
+
+  // Display the chart inside the <div> element with id="piechart"
+  var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+  chart.draw(data, options);
+}
 </script>
+<button type="button" onclick="drawChart()">Calculate</button>
 </body>
 </html>
